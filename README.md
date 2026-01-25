@@ -323,4 +323,4 @@ A: [FOLLOW_UP_SUPPORT]
 
 [LICENSE_TYPE]
 
-test
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/382c6d08-1bad-421b-97aa-3a4e17542f4c" />
