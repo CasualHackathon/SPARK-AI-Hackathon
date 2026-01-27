@@ -195,6 +195,63 @@
             </a>
         </td>
     </tr>
+</table>
+
+###  特别支持 （Special Support）
+
+<table>
+    <tr>
+        <td align="center" valign="middle">
+            <a href="https://x.com/nantangdao/" target="_blank">
+                <img src="./materials/images/nantangdao.png" alt="nantangdao" width="130" />
+            </a>
+        </td>
+        <td align="center" valign="middle">
+            <a href="https://www.ogbc.com/" target="_blank">
+                <img src="./materials/images/OGBC.png" alt="OGBC" width="130" />
+            </a>
+        </td>
+        <td align="center" valign="middle">
+            <a href="https://x.com/Scaling_X" target="_blank">
+                <img src="./materials/images/Scaling X.png" alt="Scaling X" width="130" />
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" valign="middle">
+            <a href="https://x.com/GoKiteAI" target="_blank">
+                <img src="./materials/images/Kite AI.png" alt="Kite AI" width="130" />
+            </a>
+        </td>
+        <td align="center" valign="middle">
+            <a href="https://x.com/DataDanceChain" target="_blank">
+                <img src="./materials/images/DataDance.png" alt="DataDance" width="130" />
+            </a>
+        </td>
+        <td align="center" valign="middle">
+            <a href="https://x.com/SpoonOS_ai" target="_blank">
+                <img src="./materials/images/SpoonOS.png" alt="SpoonOS" width="130" />
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" valign="middle">
+            <a href="https://ethereum.foundation/ef" target="_blank">
+                <img src="./materials/images/EF dev growth.png" alt="EF dev growth" width="130" />
+            </a>
+        </td>
+        <td align="center" valign="middle">
+            <a href="https://x.com/OneKeyHQ" target="_blank">
+                <img src="./materials/images/OneKey.png" alt="OneKey" width="130" />
+            </a>
+        </td>
+        <td align="center" valign="middle">
+            <a href="https://x.com/NoditPlatform" target="_blank">
+                <img src="./materials/images/NODIT.png" alt="NODIT" width="130" />
+            </a>
+        </td>
+    </tr>
+</table>
 
 ## **06｜常见问题 (FAQ)**
 
