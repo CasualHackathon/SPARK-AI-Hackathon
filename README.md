@@ -31,18 +31,18 @@
 
 | 活动 (Event) | 时间 (Time UTC+8) | 形式 (Format) | 相关链接 (Link) |
 | --- | --- | --- | --- |
-| 💻 Co-building (开发期) | 1月27日 - 1月30/31日 | 📍 自由开发 | Hacking Time! |
 | 🗓 Open Day (开幕) | 1月28日 19:00-20:30 | 📍 Zoom | [ZOOM 链接](https://us06web.zoom.us/j/82510601772?pwd=2MtYQkfkFOIUsz98wb4lrzcdMQO1iB.1) |
-| 🛠 Tech Workshop | 1月29日 | 📍 Zoom | Zoom 链接（待补充） |
-| 💬 AMA / Workshop | 1月28/30日 | 📍 Zoom / Twitter | 链接（待补充） |
+| 💻 Co-building (开发期) | 1月29/30/31日 | 📍 自由开发 | Hacking Time! |
+| 🛠 Tech Workshop | 1月29日 | 📍 Zoom | [Zoom 链接](这里填入具体的Zoom链接) |
+| 💬 AMA  | 1月30日 | 📍 Twitter Space | 链接（待补充） |
 | 📥 Demo 提交截止 | 2月1日 中午 12:00 | 📍 GitHub Issue | [👉 点击此处提交 Demo](https://github.com/CasualHackathon/SPARK-AI-Hackathon/issues/new?template=submission.md) |
-| 🏁 Demo Day (路演) | 2月1日 19:00-21:00 | 📍 Zoom | Zoom 链接（待补充） |
+| 🏁 Demo Day (路演) | 2月1日 19:00-21:00 | 📍 Zoom | [ZOOM 链接](https://us06web.zoom.us/j/86782028304?pwd=wfBDRXFhKM5R9ijUMN2QLWXwk6wTxq.1) |
 | 🏆 获奖公示 (Awards) | 2月4日 | 📍 社区公告 | X 链接（待补充） |
 
 **报名入口：** [点击报名](https://github.com/CasualHackathon/SPARK-AI-Hackathon?tab=contributing-ov-file)  
 
 **Demo 提交入口：** [提交 Demo](https://github.com/CasualHackathon/SPARK-AI-Hackathon?tab=contributing-ov-file)
-
+**报名教程说明：** [查看报名教程](https://github.com/CasualHackathon/SPARK-AI-Hackathon/tree/main?tab=contributing-ov-file)
 
 
 **报名/提交概览：**
@@ -94,9 +94,15 @@
 - 基于 [**Kite AI 提供的 API/SDK**](https://docs.gokite.ai/)
 - 实现一个具备支付/结算功能的 Demo（Hello World 级别即可，重点是跑通流程）。
 
-**📝更多信息：**
-- 官方账号：https://x.com/KiteAIChinese；https://x.com/GoKiteAI
-- 官方网站：https://gokite.ai/
+### 📝 更多信息：
+
+* **官方账号：**
+  * [https://x.com/KiteAIChinese](https://x.com/KiteAIChinese)
+  * [https://x.com/GoKiteAI](https://x.com/GoKiteAI)
+* **官方网站：** [Kite - The First AI Payment Blockchain](https://gokite.ai/)
+* **SDK 文件：** [https://docs.gokite.ai/kite-chain/5-advanced/account-abstraction-sdk](https://docs.gokite.ai/kite-chain/5-advanced/account-abstraction-sdk)
+* **参考资料与指南：** [https://docs.google.com/document/d/1Qfrpp9jUqA1nf1b-so4ytBoat1xG_Pb05BaOCgRvAlY/edit?tab=t.0](https://docs.google.com/document/d/1Qfrpp9jUqA1nf1b-so4ytBoat1xG_Pb05BaOCgRvAlY/edit?tab=t.0)
+* **更多参考资料待更新中**
 
 ---
 ### **2.**  [**SpoonOS**](https://x.com/SpoonOS_ai) - **LLM 应用 (LLM Application Track)**
@@ -114,12 +120,11 @@
 - 必须使用 [SpoonOS Framework](https://www.notion.so/SpoonOS-Hackathon-2f1bbd63be8780db8c59c20349715dd5?pvs=21)。
 - 提交的项目需展示完整的工作流（Input -> Processing -> Output）。
 
-**📝更多信息**
+** 📝更多信息**
 
-- 技术文档：[**SpoonOS · 最低技术使用要求（Hackathon）**](https://www.notion.so/SpoonOS-Hackathon-2f1bbd63be8780db8c59c20349715dd5?pvs=21)
-- Workshop 回放：[**Rick 老师 SpoonOS 实战教学**](https://www.notion.so/ethpanda/SpoonOS-Hackathon-2f1bbd63be8780db8c59c20349715dd5?source=copy_link)
-- AI及其基础概念：[**SpoonOS框架**](https://www.youtube.com/watch?v=1NDNoiUUyRI)
-- 想法快速落地：[SDK](https://www.npmjs.com/package/@ddcmarket/sdk)
+- 技术文档：[SpoonOS · 最低技术使用要求（Hackathon）](https://docs.google.com/document/d/1v9tdC_0CABmgsfznJQa_qkWxyYcgW3e5Rl9n5gkAEWk/edit?usp=sharing)
+- Workshop 回放：[Rick 老师教学 AI 及其基础概念（SpoonOS框架）](https://www.youtube.com/watch?v=1NDNoiUUyRI)
+- SpoonOS SDK: [https://xspoonai.github.io/docs/getting-started/installation/](https://xspoonai.github.io/docs/getting-started/installation/)
 
 ---
 ### **3.**  [**OGBC**](https://x.com/ogbcgroup) × [**ScalingX**](https://x.com/Scaling_X) - **预测市场 (Prediction Market Track)**
@@ -160,11 +165,15 @@
 - Zoom 链接：[ZOOM_LINK]
 
 
+### 04 | 评委&嘉宾介绍 (Judges & Speakers)
+
+| 名称 | 推特账号 | 身份 | 个人简单介绍 |
+| :--- | :--- | :--- | :--- |
+| (待更新) | | | |
+| (待更新) | | | |
 
 
-
-## 主办方 (Sponsor)
-
+##  05|主办方 (Host) 
 <table>
     <tr>
         <td  align="center" valign="middle">
@@ -181,7 +190,7 @@
 
 </table>
 
-### 🌐 特别支持
+### 🌐 特别支持（Special Support）
 
 <table>
     <tr>
@@ -237,7 +246,7 @@
     </tr>
 </table>
 
-## **04｜常见问题 (FAQ)**
+## **06｜常见问题 (FAQ)**
 
 **Q: 我没有技术背景可以参加吗？** A: 完全可以！我们鼓励非技术背景的参赛者参加。你可以专注于产品设计、运营策划、市场营销等方面，或者使用 AI 工具辅助。
 
