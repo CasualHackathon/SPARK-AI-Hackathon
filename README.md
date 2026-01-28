@@ -117,10 +117,9 @@
 
 **📝更多信息**
 
-* 技术文档：**SpoonOS · 最低技术使用要求（Hackathon）**
-  [https://docs.google.com/document/d/1v9tdC_0CABmgsfznJQa_qkWxyYcgW3e5RI9n5gkAEWk/edit?usp=sharing](https://docs.google.com/document/d/1v9tdC_0CABmgsfznJQa_qkWxyYcgW3e5RI9n5gkAEWk/edit?usp=sharing)
-* Workshop 回放：Rick 老师教学 AI 及其基础概念**（ **SpoonOS框架** ）**[https://www.youtube.com/watch?v=1NDNoiUUyRI](https://www.youtube.com/watch?v=1NDNoiUUyRI)
-* SpoonOS SDK [https://xspoonai.github.io/docs/getting-started/installation/](https://xspoonai.github.io/docs/getting-started/installation/)
+* 技术文档：[SpoonOS · 最低技术使用要求（Hackathon）](https://docs.google.com/document/d/1v9tdC_0CABmgsfznJQa_qkWxyYcgW3e5RI9n5gkAEWk/edit?usp=sharing)
+* Workshop 回放：Rick 老师教学 AI 及其基础概念（SpoonOS 框架） — [YouTube](https://www.youtube.com/watch?v=1NDNoiUUyRI)
+* SpoonOS SDK 安装指南：[https://xspoonai.github.io/docs/getting-started/installation/](https://xspoonai.github.io/docs/getting-started/installation/)
 
 ---
 
@@ -149,9 +148,9 @@
 
 ### **🧰 工具支持 - DataDance SDK**
 
-* **推荐场景** : 适用于所有赛道的数据处理，需要进行复杂数据清洗、格式化或多源数据接入的项目（例如预测市场的数据源处理，或 LLM 的上下文预处理）。
-* **文档说明** : [📄 DataDance SDK 使用指南](https://docs.google.com/document/d/1xbGWsV8spQXA2ZBCmN-xJjcNvdJEWwo77edUyXh0aKs/edit)
-* **想法快速落地 SDK** [https://www.npmjs.com/package/@ddcmarket/sdk](https://www.npmjs.com/package/@ddcmarket/sdk)
+* **推荐场景**：适用于所有赛道的数据处理，需要进行复杂数据清洗、格式化或多源数据接入的项目（例如预测市场的数据源处理，或 LLM 的上下文预处理）。
+* **文档说明**：[📄 DataDance SDK 使用指南](https://docs.google.com/document/d/1xbGWsV8spQXA2ZBCmN-xJjcNvdJEWwo77edUyXh0aKs/edit)
+* **想法快速落地**：SDK [https://www.npmjs.com/package/@ddcmarket/sdk](https://www.npmjs.com/package/@ddcmarket/sdk)
 
 ## **03 | Demo Day 路演指南（Demo Day Guide）**
 
@@ -164,7 +163,7 @@
   - 技术见解
 - 项目路演顺序将在赛事交流群内进行公布，更多信息请加入赛事交流群。
 - *注意：每个团队一般有 **5 - 8 分钟**的展示时间，但会视最终提交项目数量具体调整——请合理安排时间*
-- Zoom 链接：[ZOOM_LINK]
+- Zoom 链接：[https://us06web.zoom.us/j/86782028304?pwd=wfBDRXFhKM5R9ijUMN2QLWXwk6wTxq.1](https://us06web.zoom.us/j/86782028304?pwd=wfBDRXFhKM5R9ijUMN2QLWXwk6wTxq.1)
 
 ## **04 | 评委&嘉宾介绍（Judges & Speakers）**
 
