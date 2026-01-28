@@ -176,7 +176,7 @@
 | <img src="./materials/images/Sue.png" width="50"><br>**Sue**<br>[@ssssy83717](https://twitter.com/ssssy83717) | 1月29日 | Co-Building 嘉宾 | 擅长产品落地, 架构设计 |
 | <img src="./materials/images/XiaoHai67890.jpg" width="50"><br>**XiaoHai67890**<br>[@XiaoHai67890](https://twitter.com/XiaoHai67890) | 1月30日 | Co-Building 嘉宾 | Builder @ETHPanda |
 | <img src="./materials/images/Jintol.jpg" width="50"><br>**Jintol**<br>[@JintolOffi](https://twitter.com/JintolOffi) | 1月31日 | Co-Building 嘉宾 | Builder @ETHPanda_Org |
-| <img src="./materials/images/Ray.jpg" width="50"><br>**Roy**<br>[@rayoo_eth](https://twitter.com/rayoo_eth) | 1月30日 | AMA 嘉宾 | LXDAO 核心贡献者,LXDAO 的早期成员主要研究以太坊和公共物品 |
+| <img src="./materials/images/Ray.jpg" width="50"><br>**Ray**<br>[@rayoo_eth](https://twitter.com/rayoo_eth) | 1月30日 | AMA 嘉宾 | LXDAO 核心贡献者,LXDAO 的早期成员主要研究以太坊和公共物品 |
 | <img src="./materials/images/Coooder.jpeg" width="50"><br>**Coooder**<br>[@Coooder_Crypto](https://x.com/Coooder_Crypto) | 1月30日 | AMA 嘉宾 | LXDAO Builder，@BUPT3DAO |
 | <img src="./materials/images/Iris.jpeg" width="50"><br>**Iris** | 2月1日 | SpoonOS评委 | SpoonOS Community Operations |
 | <img src="./materials/images/Elizabeth.jpeg" width="50"><br>**Elizabeth**<br>[@elizabethyaaa](https://twitter.com/elizabethyaaa) | 2月1日 | SpoonOS评委 | Core Contributor at SpoonOS |
