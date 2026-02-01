@@ -1,7 +1,7 @@
 # maxzhangg
 
-Name: 1
-Introduction: 2
-ContactMethod: 3
-WantsTeam: 4
-Comment: 5
+Name: Max
+Introduction: 略
+ContactMethod: @maxzhang0
+WantsTeam: 是
+Comment: 无
