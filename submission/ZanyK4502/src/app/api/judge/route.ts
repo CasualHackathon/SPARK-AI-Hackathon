@@ -53,15 +53,31 @@ async function fetchRecentProofHashes(wallet: string, limit = 4) {
       `&startblock=0&endblock=99999999&page=1&offset=${limit}&sort=desc` +
       `&apikey=${encodeURIComponent(apiKey)}`;
 
-    const r = await fetch(url, { cache: "no-store" });
-    if (!r.ok) return [];
+    // 使用 AbortController 设置超时（30秒）
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    const j: any = await r.json();
-    if (j.status !== "1" || !Array.isArray(j.result)) return [];
+    try {
+      const r = await fetch(url, {
+        cache: "no-store",
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
 
-    return j.result
-      .map((x: any) => x?.hash)
-      .filter((h: any) => typeof h === "string" && h.startsWith("0x"));
+      if (!r.ok) return [];
+
+      const j: any = await r.json();
+      if (j.status !== "1" || !Array.isArray(j.result)) return [];
+
+      return j.result
+        .map((x: any) => x?.hash)
+        .filter((h: any) => typeof h === "string" && h.startsWith("0x"));
+    } catch (error: any) {
+      clearTimeout(timeoutId);
+      // 超时或其他网络错误，返回空数组而不是抛出错误
+      console.warn(`Etherscan API call failed for ${action}:`, error?.message || error);
+      return [];
+    }
   }
 
   const normal = await call("txlist");

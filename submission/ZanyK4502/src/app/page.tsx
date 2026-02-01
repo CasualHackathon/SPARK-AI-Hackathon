@@ -187,6 +187,7 @@ export default function Page() {
   const [out, setOut] = useState<VerdictOutput | null>(null);
   const [log, setLog] = useState<string[]>([]);
   const [walletInput, setWalletInput] = useState("");
+  const [error, setError] = useState("");
 
   const [radarAnim, setRadarAnim] = useState<VerdictOutput["radar"]>(ZERO_RADAR);
   const rafRef = useRef<number | null>(null);
@@ -231,6 +232,14 @@ export default function Page() {
   }, [out]);
 
   async function judge(sampleKey: string) {
+    // 验证输入：标准以太坊地址（42位，0x开头）
+    const trimmedInput = walletInput.trim();
+    if (trimmedInput.length !== 42 || !trimmedInput.startsWith("0x")) {
+      setError("请输入正确的钱包地址");
+      return;
+    }
+
+    setError("");
     setOut(null);
     setLoading(true);
     setLog([]);
@@ -248,7 +257,7 @@ export default function Page() {
 
     const mockData: any = {
       case_title: "The People v. SampleA",
-      wallet: walletInput,
+      wallet: trimmedInput,
       verdict: "", 
       tags: [],
       radar: { wealth: 0, holding: 0, governance: 0, builder: 0, degen: 0 },
@@ -258,11 +267,11 @@ export default function Page() {
     };
     
     const res = await fetch(
-      `/api/judge?sample=${encodeURIComponent(sampleKey)}&wallet=${encodeURIComponent(walletInput.trim())}`
+      `/api/judge?sample=${encodeURIComponent(sampleKey)}&wallet=${encodeURIComponent(trimmedInput)}`
     );
     const data = (await res.json()) as any;
 
-    const persona = pickPersonaByAddress(walletInput);
+    const persona = pickPersonaByAddress(trimmedInput);
     applyPersonaText(data, persona);
 
     push("[SpoonOS] Proof links attached");
@@ -274,12 +283,519 @@ export default function Page() {
     alert("💸 贿赂通道拥堵中...\n\n本判官刚正不阿！(请直接向 0xScribe 项目方转账 10 ETH 以加速处理 Just Kidding)");
   }
 
-  // 3. 分享功能 (Web3 Social)
+  // 3. 分享功能 (Web3 Social) - 手动绘制图片
   function handleShare() {
-    if (!out) return;
-    const text = `⚖️ 判决已下！\n我在 0xScribe 被 AI 判官审判为：${out.verdict.split("。")[0].replace("此人乃", "").trim()}。\n\nWallet is your History. AI is the Judge.\n\n#0xScribe #Web3 #AI`;
-    const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
-    window.open(url, "_blank");
+    if (!out) {
+      alert("未找到判决结果，请先进行判决");
+      return;
+    }
+
+    try {
+      // 创建 Canvas
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        alert("图片生成失败");
+        return;
+      }
+
+      // 设置尺寸
+      const width = 800;
+      const height = 600;
+      canvas.width = width;
+      canvas.height = height;
+
+      // MBTI 人格映射
+      function getMBTI(): string {
+        const { wealth, holding, governance, builder, degen } = out.radar;
+
+        // God: 全满分
+        if (wealth === 100 && holding === 100 && governance === 100) {
+          return "INTJ-A"; // 建筑师（完美主义）
+        }
+        // Degen: 高 degen，低其他
+        if (degen >= 90) {
+          return "ESFP-A"; // 表演者（活在当下）
+        }
+        // Whale: 高 wealth/holding，低 builder
+        if (wealth >= 90 && holding >= 90 && builder <= 30) {
+          return "ISTJ-A"; // 物流师（稳重保守）
+        }
+        // Hunter: 高 builder，低 wealth
+        if (builder >= 80 && wealth <= 40) {
+          return "ESTJ-A"; // 总经理（高效执行）
+        }
+        // Builder: 高 governance/builder
+        if (governance >= 85 && builder >= 90) {
+          return "INTP-A"; // 逻辑学家（善于构建）
+        }
+        // 默认
+        return "INFJ-A"; // 提倡者（理想主义）
+      }
+
+      const mbti = getMBTI();
+      const mbtiDesc: Record<string, string> = {
+        "INTJ-A": "建筑师 · 完美主义",
+        "ESFP-A": "表演者 · 活在当下",
+        "ISTJ-A": "物流师 · 稳重保守",
+        "ESTJ-A": "总经理 · 高效执行",
+        "INTP-A": "逻辑学家 · 善于构建",
+        "INFJ-A": "提倡者 · 理想主义",
+      };
+
+      // MBTI 类型对应的视觉主题
+      const mbtiThemes: Record<string, {
+        primary: string;
+        secondary: string;
+        accent: string;
+        symbol: string;
+        pattern: string;
+      }> = {
+        "INTJ-A": {
+          primary: "#4a3b6b",    // 深紫
+          secondary: "#6b5b8a",  // 紫蓝
+          accent: "#9d7cb5",     // 淡紫
+          symbol: "🏗️",          // 建筑师
+          pattern: "geometric"
+        },
+        "ESFP-A": {
+          primary: "#e85d75",    // 珊瑚红
+          secondary: "#f5a962",  // 橙色
+          accent: "#f8d875",      // 金黄
+          symbol: "🎭",          // 表演者
+          pattern: "dynamic"
+        },
+        "ISTJ-A": {
+          primary: "#5c5c3d",    // 橄榄绿
+          secondary: "#7a7a5e",  // 灰绿
+          accent: "#9e9e7a",     // 浅绿
+          symbol: "🏛️",          // 物流师
+          pattern: "structured"
+        },
+        "ESTJ-A": {
+          primary: "#c8553d",    // 砖红
+          secondary: "#d4766c",  // 珊瑚色
+          accent: "#e8a898",     // 淡红
+          symbol: "⚡",          // 总经理
+          pattern: "bold"
+        },
+        "INTP-A": {
+          primary: "#4a6b8a",    // 蓝绿
+          secondary: "#6b8a9d",  // 淡蓝
+          accent: "#8aabbe",     // 浅蓝绿
+          symbol: "🔮",          // 逻辑学家
+          pattern: "abstract"
+        },
+        "INFJ-A": {
+          primary: "#8a5b7a",    // 紫红
+          secondary: "#a87b9d",  // 淡紫粉
+          accent: "#c4a4b8",     // 浅紫粉
+          symbol: "✨",          // 提倡者
+          pattern: "ethereal"
+        }
+      };
+
+      // ==================== MBTI 主题背景 ====================
+      const theme = mbtiThemes[mbti] || mbtiThemes["INFJ-A"];
+
+      // 基础渐变背景（使用主题色）
+      const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+      bgGradient.addColorStop(0, theme.primary + "15");    // 非常淡的主题色
+      bgGradient.addColorStop(0.5, theme.secondary + "10");
+      bgGradient.addColorStop(1, theme.accent + "05");
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, width, height);
+
+      // 绘制主题图案
+      ctx.save();
+      ctx.fillStyle = theme.primary + "12";
+      ctx.strokeStyle = theme.secondary + "15";
+
+      switch (theme.pattern) {
+        case "geometric":  // INTJ - 建筑师风格：几何图形
+          for (let i = 0; i < 8; i++) {
+            const angle = (i * 45) * (Math.PI / 180);
+            const x = width / 2 + Math.cos(angle) * 200;
+            const y = height / 2 + Math.sin(angle) * 150;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 40, y + 40);
+            ctx.lineTo(x - 30, y + 50);
+            ctx.closePath();
+            ctx.stroke();
+          }
+          // 中央几何图形
+          ctx.beginPath();
+          ctx.moveTo(width / 2, height / 2 - 80);
+          ctx.lineTo(width / 2 + 60, height / 2 + 40);
+          ctx.lineTo(width / 2 - 60, height / 2 + 40);
+          ctx.closePath();
+          ctx.fill();
+          break;
+
+        case "dynamic":  // ESFP - 表演者风格：动态波浪
+          for (let i = 0; i < 5; i++) {
+            ctx.beginPath();
+            ctx.moveTo(0, height * 0.3 + i * 40);
+            for (let x = 0; x <= width; x += 20) {
+              const y = height * 0.3 + i * 40 + Math.sin(x * 0.02 + i) * 30;
+              ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          }
+          // 动态圆圈
+          for (let i = 0; i < 12; i++) {
+            const angle = (i * 30) * (Math.PI / 180);
+            const r = 80 + i * 15;
+            ctx.beginPath();
+            ctx.arc(width / 2, height / 2, r, angle, angle + 0.3);
+            ctx.stroke();
+          }
+          break;
+
+        case "structured":  // ISTJ - 物流师风格：网格结构
+          ctx.lineWidth = 1;
+          for (let x = 50; x < width; x += 60) {
+            ctx.beginPath();
+            ctx.moveTo(x, 50);
+            ctx.lineTo(x, height - 100);
+            ctx.stroke();
+          }
+          for (let y = 50; y < height - 100; y += 60) {
+            ctx.beginPath();
+            ctx.moveTo(50, y);
+            ctx.lineTo(width - 50, y);
+            ctx.stroke();
+          }
+          // 中央矩形
+          ctx.fillRect(width / 2 - 70, height / 2 - 50, 140, 100);
+          break;
+
+        case "bold":  // ESTJ - 总经理风格：大胆形状
+          ctx.lineWidth = 3;
+          for (let i = 0; i < 6; i++) {
+            ctx.beginPath();
+            const size = 40 + i * 25;
+            ctx.strokeRect(width / 2 - size, height / 2 - size * 0.7, size * 2, size * 1.4);
+          }
+          // 三角形装饰
+          ctx.beginPath();
+          ctx.moveTo(width / 2, height / 2 - 90);
+          ctx.lineTo(width / 2 + 80, height / 2 + 50);
+          ctx.lineTo(width / 2 - 80, height / 2 + 50);
+          ctx.closePath();
+          ctx.fillStyle = theme.primary + "20";
+          ctx.fill();
+          break;
+
+        case "abstract":  // INTP - 逻辑学家风格：抽象曲线
+          for (let i = 0; i < 15; i++) {
+            ctx.beginPath();
+            ctx.ellipse(
+              width / 2 + Math.cos(i * 0.8) * 150,
+              height / 2 + Math.sin(i * 0.6) * 100,
+              60 + i * 8,
+              40 + i * 5,
+              i * 0.3,
+              0,
+              Math.PI * 2
+            );
+            ctx.stroke();
+          }
+          // 抽象节点
+          for (let i = 0; i < 8; i++) {
+            const angle = (i * 45) * (Math.PI / 180);
+            ctx.beginPath();
+            ctx.arc(width / 2 + Math.cos(angle) * 120, height / 2 + Math.sin(angle) * 80, 8, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          break;
+
+        case "ethereal":  // INFJ - 提倡者风格：空灵流动
+          // 柔和流动的曲线
+          for (let i = 0; i < 20; i++) {
+            ctx.beginPath();
+            const startY = 80 + i * 25;
+            ctx.moveTo(40, startY);
+            for (let x = 40; x < width - 40; x += 30) {
+              const y = startY + Math.sin(x * 0.01 + i * 0.5) * 20 + Math.cos(x * 0.008) * 15;
+              ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = theme.secondary + (10 + i * 2).toString(16);
+            ctx.stroke();
+          }
+          // 空灵光晕
+          const glowGradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, 250);
+          glowGradient.addColorStop(0, theme.primary + "25");
+          glowGradient.addColorStop(0.5, theme.secondary + "10");
+          glowGradient.addColorStop(1, "transparent");
+          ctx.fillStyle = glowGradient;
+          ctx.fillRect(0, 0, width, height);
+          // 心形装饰
+          ctx.beginPath();
+          ctx.moveTo(width / 2, height / 2 - 40);
+          ctx.bezierCurveTo(width / 2 + 50, height / 2 - 70, width / 2 + 80, height / 2 - 20, width / 2, height / 2 + 40);
+          ctx.bezierCurveTo(width / 2 - 80, height / 2 - 20, width / 2 - 50, height / 2 - 70, width / 2, height / 2 - 40);
+          ctx.fillStyle = theme.primary + "18";
+          ctx.fill();
+          break;
+      }
+      ctx.restore();
+
+      // 绘制主题色晕染效果
+      ctx.save();
+      const fogGradient = ctx.createRadialGradient(width * 0.5, height * 0.5, 0, width * 0.5, height * 0.5, 350);
+      fogGradient.addColorStop(0, theme.primary + "08");
+      fogGradient.addColorStop(1, "transparent");
+      ctx.fillStyle = fogGradient;
+      ctx.fillRect(0, 0, width, height);
+      ctx.restore();
+
+      // ==================== 装饰边框 ====================
+      ctx.strokeStyle = theme.primary + "50";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(15, 15, width - 30, height - 30);
+
+      // 内边框（细线）
+      ctx.strokeStyle = theme.secondary + "30";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(20, 20, width - 40, height - 40);
+
+      // 绘制四角装饰
+      const cornerSize = 35;
+      ctx.strokeStyle = theme.primary + "60";
+      ctx.lineWidth = 2;
+
+      [[20, 20, 1, 1], [width - 20, 20, -1, 1], [20, height - 20, 1, -1], [width - 20, height - 20, -1, -1]].forEach(([x, y, dx, dy]) => {
+        ctx.beginPath();
+        ctx.moveTo(x, y + cornerSize * dy);
+        ctx.lineTo(x, y);
+        ctx.lineTo(x + cornerSize * dx, y);
+        ctx.stroke();
+      });
+
+      // ==================== MBTI 符号背景 ====================
+      ctx.save();
+      ctx.font = "120px serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = theme.primary + "10";
+      ctx.fillText(theme.symbol, width / 2, height / 2);
+      ctx.restore();
+
+      // ==================== 标题区域 ====================
+      ctx.save();
+      ctx.font = "bold 36px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillStyle = theme.primary;
+      ctx.fillText("判 词", width / 2, 55);
+
+      ctx.font = "18px 'Courier New', monospace";
+      ctx.fillStyle = theme.secondary + "b0";
+      ctx.fillText("0xScribe · 钱包即历史", width / 2, 80);
+      ctx.restore();
+
+      // 分隔线
+      ctx.save();
+      ctx.strokeStyle = theme.primary + "40";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([12, 6, 4, 2]);
+      ctx.beginPath();
+      ctx.moveTo(40, 100);
+      ctx.lineTo(width - 40, 100);
+      ctx.stroke();
+      ctx.restore();
+
+      // ==================== 判决词区域 ====================
+      const verdictText = out.verdict;
+      const parts = verdictText.split("。");
+      const headline = parts[0].replace("此人乃", "").trim();
+      const rest = parts.slice(1).join("。");
+
+      ctx.save();
+      ctx.fillStyle = theme.secondary + "90";
+      ctx.font = "12px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("此人乃", width / 2, 130);
+      ctx.restore();
+
+      ctx.save();
+      ctx.fillStyle = theme.primary;
+      ctx.font = "bold 28px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(headline, width / 2, 165);
+      ctx.restore();
+
+      if (rest) {
+        ctx.save();
+        ctx.fillStyle = theme.secondary + "d0";
+        ctx.font = "16px 'Courier New', monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(rest + "。", width / 2, 195);
+        ctx.restore();
+      }
+
+      // ==================== MBTI 标签 ====================
+      ctx.save();
+      ctx.fillStyle = theme.primary;
+      ctx.font = "bold 20px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(`MBTI: ${mbti}`, width / 2, 225);
+      ctx.restore();
+
+      ctx.save();
+      ctx.fillStyle = theme.secondary + "b0";
+      ctx.font = "14px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(mbtiDesc[mbti] || "", width / 2, 245);
+      ctx.restore();
+
+      // ==================== Tags ====================
+      ctx.save();
+      ctx.fillStyle = theme.primary + "cc";
+      ctx.font = "14px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      const tagsLine = out.tags.map(t => `#${t}`).join("  ");
+      ctx.fillText(tagsLine, width / 2, 275);
+      ctx.restore();
+
+      // ==================== 居中雷达图 ====================
+      const radarCenterX = width / 2;
+      const radarCenterY = 400;
+      const radarRadius = 110;
+
+      const labels = ["财富", "持仓", "治理", "构建", "投机"];
+      const dataValues = [
+        out.radar.wealth,
+        out.radar.holding,
+        out.radar.governance,
+        out.radar.builder,
+        out.radar.degen
+      ];
+
+      // 绘制五边形背景网格（5层）
+      for (let level = 1; level <= 5; level++) {
+        const levelRadius = (radarRadius * level) / 5;
+        ctx.beginPath();
+        ctx.strokeStyle = theme.primary + "40";
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i <= 5; i++) {
+          const angle = (i * 72 - 90) * (Math.PI / 180);
+          const x = radarCenterX + Math.cos(angle) * levelRadius;
+          const y = radarCenterY + Math.sin(angle) * levelRadius;
+
+          if (i === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      // 绘制中心线
+      for (let i = 0; i < 5; i++) {
+        const angle = (i * 72 - 90) * (Math.PI / 180);
+        const x = radarCenterX + Math.cos(angle) * radarRadius;
+        const y = radarCenterY + Math.sin(angle) * radarRadius;
+
+        ctx.beginPath();
+        ctx.strokeStyle = theme.secondary + "30";
+        ctx.moveTo(radarCenterX, radarCenterY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        // 绘制标签
+        const labelRadius = radarRadius + 25;
+        const labelX = radarCenterX + Math.cos(angle) * labelRadius;
+        const labelY = radarCenterY + Math.sin(angle) * labelRadius;
+        ctx.fillStyle = theme.primary + "d8";
+        ctx.font = "bold 12px 'Courier New', monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(labels[i], labelX, labelY);
+      }
+
+      // 绘制数据五边形
+      ctx.beginPath();
+      ctx.strokeStyle = theme.primary;
+      ctx.lineWidth = 2.5;
+      ctx.fillStyle = theme.primary + "40";
+
+      for (let i = 0; i <= 5; i++) {
+        const angle = (i * 72 - 90) * (Math.PI / 180);
+        const value = dataValues[i % 5] / 100;
+        const x = radarCenterX + Math.cos(angle) * (radarRadius * value);
+        const y = radarCenterY + Math.sin(angle) * (radarRadius * value);
+
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // 绘制数据点
+      for (let i = 0; i < 5; i++) {
+        const angle = (i * 72 - 90) * (Math.PI / 180);
+        const value = dataValues[i] / 100;
+        const x = radarCenterX + Math.cos(angle) * (radarRadius * value);
+        const y = radarCenterY + Math.sin(angle) * (radarRadius * value);
+
+        ctx.beginPath();
+        ctx.fillStyle = theme.primary;
+        ctx.arc(x, y, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 数据点外圈
+        ctx.beginPath();
+        ctx.strokeStyle = theme.secondary + "66";
+        ctx.lineWidth = 2;
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // ==================== 底部信息 ====================
+      // 钱包地址
+      ctx.save();
+      ctx.fillStyle = theme.secondary + "80";
+      ctx.font = "12px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(out.wallet, width / 2, 550);
+      ctx.restore();
+
+      // 品牌标语
+      ctx.save();
+      ctx.fillStyle = theme.primary + "58";
+      ctx.font = "11px 'Courier New', monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("Wallet is History · AI is Judge · 0xScribe", width / 2, 575);
+      ctx.restore();
+
+      // 转换为图片并下载
+      const dataUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `0xScribe_${out.wallet.substring(0, 10)}_${mbti}.png`;
+      link.click();
+
+      // 询问是否分享到 X
+      const shareToX = confirm("✅ 图片已下载！\n\n是否要在 X (Twitter) 上分享文字描述？");
+      if (shareToX) {
+        const text = `⚖️ 判决已下！\n我在 0xScribe 被 AI 判官审判为：${out.verdict.split("。")[0].replace("此人乃", "").trim()}。\nMBTI: ${mbti} - ${mbtiDesc[mbti]}\n\n#0xScribe #Web3 #AI #MBTI`;
+        const twitterUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+        window.open(twitterUrl, "_blank");
+      }
+    } catch (error) {
+      console.error("生成图片失败:", error);
+      alert("图片生成失败，请重试");
+    }
   }
 
   const flags = out?.risk_flags ?? [];
@@ -369,6 +885,15 @@ export default function Page() {
                 </div>
               </div>
             </div>
+
+            {error && (
+              <div className="mt-4 p-4 border border-red-900/50 rounded-xl bg-red-900/10">
+                <div className="flex items-center gap-2 text-red-400 font-mono text-sm">
+                  <span className="text-lg">⚠️</span>
+                  {error}
+                </div>
+              </div>
+            )}
 
             {loading && (
               <div className="mt-8 p-6 border border-green-800/30 rounded-xl bg-green-900/5">
@@ -491,7 +1016,7 @@ export default function Page() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                       <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
                     </svg>
-                    Share Verdict
+                    📸 Share Image
                   </button>
                 </div>
 
