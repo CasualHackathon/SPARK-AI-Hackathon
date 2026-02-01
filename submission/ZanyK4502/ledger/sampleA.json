@@ -1,0 +1,14 @@
+﻿{
+  "case_title": "The People v. SampleA",
+  "wallet": "sampleA",
+  "tags": ["DeFi Pioneer", "Diamond Hands", "Public Goods Builder"],
+  "radar": { "wealth": 62, "holding": 91, "governance": 35, "builder": 40, "degen": 18 },
+  "merits": [
+    { "claim": "Provided liquidity on Uniswap", "proof_url": "https://etherscan.io/tx/0x56fb97b84a7e3b0679359df2fc58f71a08c6509248dcd67e610f27836f8d7195" },
+    { "claim": "Donated to Gitcoin", "proof_url": "https://etherscan.io/tx/0x160a21f5eef048ff663bf8e6fe3ee78889a55d17b691376bc7eab9111d635ca5" },
+    { "claim": "Hedged via stablecoins", "proof_url": "https://etherscan.io/tx/0xd0ac3250165279d72f05b642c93c663f69517a325318bda301442bbbe425609d" }
+  ],
+  "charges": [
+    { "claim": "High-volatility rotation (narrative chasing)", "proof_url": "https://etherscan.io/tx/0xd95fde43b1e353d954b4076f7c32ca99e5d392dafa4294529966a65de88fac2d" }
+  ]
+}
