@@ -7,5 +7,4 @@ ProjectDescription: 本项目旨在通过 AI 裁判 的无情审计与 智能合
 Github Repo Link: https://github.com/ggus39/Strict-Habit-Coach
 Team Lead: Oronm Li
 Team Wallet Address: Oronm Li   ：0x24440EC6A8FD6f89F1Fe45aa5A1B281cEae993B2
-Arthur dwan ： 0x2bd933ec2cd8216fe80527fe958a1c30a0b20bdc
 ggus39 ： 0xf2658d968109e7e4bb2b1bf59dbd6358695797b1
