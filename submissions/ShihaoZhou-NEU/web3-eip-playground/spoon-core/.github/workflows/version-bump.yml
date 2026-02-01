@@ -1,0 +1,114 @@
+name: Version Bump and Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+      custom_version:
+        description: 'Custom version (optional, overrides version_type)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install bump2version
+
+    - name: Configure Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+    - name: Bump version
+      id: bump
+      env:
+        VERSION_TYPE: ${{ github.event.inputs.version_type }}
+        CUSTOM_VERSION: ${{ github.event.inputs.custom_version }}
+      run: |
+        # Extract current version from pyproject.toml
+        CURRENT_VERSION=$(grep '^version =' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+
+        # Check if custom version is provided
+        if [ -n "$CUSTOM_VERSION" ]; then
+          NEW_VERSION="$CUSTOM_VERSION"
+          echo "Using custom version: $NEW_VERSION"
+        else
+          # Use version type bump
+          case "$VERSION_TYPE" in
+            patch)
+              NEW_VERSION=$(bump2version patch --dry-run --list | grep new_version | cut -d'=' -f2)
+              ;;
+            minor)
+              NEW_VERSION=$(bump2version minor --dry-run --list | grep new_version | cut -d'=' -f2)
+              ;;
+            major)
+              NEW_VERSION=$(bump2version major --dry-run --list | grep new_version | cut -d'=' -f2)
+              ;;
+          esac
+        fi
+
+        echo "Current version: $CURRENT_VERSION"
+        echo "New version: $NEW_VERSION"
+        echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+        # Always update version - force the change even if it's the same
+        if [ -n "$CUSTOM_VERSION" ]; then
+          # For custom version, force update to user-specified version
+          echo "Forcing version update to: $NEW_VERSION"
+          sed -i "s/version = \".*\"/version = \"$NEW_VERSION\"/" pyproject.toml
+        else
+          # Use bump2version for standard version bumps
+          bump2version $VERSION_TYPE --allow-dirty
+        fi
+
+        # Always commit the changes, even if version didn't change
+        # This ensures we have a commit record of the version bump
+
+    - name: Commit version bump
+      run: |
+        git add pyproject.toml
+        # Check if there are changes to commit
+        if git diff --staged --quiet; then
+          echo "No changes detected, creating empty commit for version bump"
+          git commit --allow-empty -m "Bump version to ${{ steps.bump.outputs.new_version }}"
+        else
+          echo "Changes detected, committing version bump"
+          git commit -m "Bump version to ${{ steps.bump.outputs.new_version }}"
+        fi
+
+    - name: Create tag
+      run: |
+        # Force create tag, overwriting if it already exists
+        git tag -f "v${{ steps.bump.outputs.new_version }}"
+
+    - name: Push changes and tag
+      run: |
+        git push origin main
+        # Force push tag, overwriting if it already exists on remote
+        git push -f origin "v${{ steps.bump.outputs.new_version }}"

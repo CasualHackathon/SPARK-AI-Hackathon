@@ -1,0 +1,11 @@
+{
+  "name": "EIP Playground Badge #9",
+  "description": "A commemorative NFT badge earned by completing EIP learning games on Web3 EIP Playground. Learn by doing, not reading!",
+  "image": "ipfs://bafybeibiebovnb57w6jh6aqshp6ir6sofvm3c7gbd7asv2kdp6xdfqmniy",
+  "external_url": "https://eip-playground.xyz",
+  "attributes": [
+    { "trait_type": "Style", "value": "Pixel Art" },
+    { "trait_type": "Index", "value": "9" },
+    { "trait_type": "Rarity", "value": "Legendary" }
+  ]
+}
